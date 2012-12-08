@@ -1,4 +1,4 @@
-from urllib import unquote
+from urllib import unquote, urlencode
 from urlparse import urlparse
 import urllib2
 import logging
@@ -22,7 +22,7 @@ JINJA_ENV = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(
 
 class CompareGamers(webapp.RequestHandler):
     def get(self, *args):
-        gamer = args[0] if len(args) > 0 else "pedle%20zelnip"
+        gamer = args[0].encode('ascii', 'ignore') if len(args) > 0 else "pedle zelnip"
         template = JINJA_ENV.get_template('generateurl.html')
         gamer1 = get_gamer_info(gamer)
         values = gamer1['Data']
@@ -47,6 +47,7 @@ def get_gamer_info(gamer):
     elif "beard" in gamer:
         data = pickle.load(open('beard.pkl', 'r'))
     else:
+        gamer = gamer.replace(' ', "%20")
         url = "http://www.xboxleaders.com/api/games.json?gamertag=%s&region=en-US" % gamer
         req = urllib2.Request(url)
         response = urllib2.urlopen(req, timeout=60)
