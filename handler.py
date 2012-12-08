@@ -43,12 +43,12 @@ def get_gamer_info(gamer):
     '''
     Returns data for the given gamertag
     '''
-    if "pedle" in gamer:
-        data = pickle.load(open('pzelnip2.pkl', 'r'))
-    elif "beard" in gamer:
-        data = pickle.load(open('beard2.pkl', 'r'))
-    else:
-        data = read_from_public_api(gamer)
+#    if gamer.lower() == "pedle zelnip":
+#        data = pickle.load(open('pzelnip2.pkl', 'r'))
+#    elif gamer.lower() == "ii the beard ii":
+#        data = pickle.load(open('beard2.pkl', 'r'))
+#    else:
+    data = read_from_public_api(gamer)
 
     return data
 
@@ -88,7 +88,7 @@ def process_gamers(gamer1, gamer2):
 
 # Register the URL with the responsible classes
 APPLICATION = webapp.WSGIApplication([
-        (r'\A/', CompareGamers),
+        (r'/', CompareGamers),
     ], debug=True)
 
 if __name__ == "__main__":
