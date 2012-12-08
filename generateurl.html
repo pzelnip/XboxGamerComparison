@@ -7,17 +7,34 @@
     </head>
     <body>
     <form action="/" method="POST">
-        <label for="targeturl">Gamer:</label>
+        <label for="gamertag1">Gamer 1:</label>
         <br>
-        <input type="text" id="gamertag" name="gamertag" style="width: 500px">
+        <input type="text" id="gamertag1" name="gamertag1" style="width: 500px">
+        <br>
+        <label for="gamertag2">Gamer 2:</label>
+        <br>
+        <input type="text" id="gamertag2" name="gamertag2" style="width: 500px">
         <br>
         <input type="submit" value="Submit">
     </form>
-    <h1>Games Played by {{ Gamertag }}</h1>
-    {% for game in PlayedGames %}
+    <h1>Games Played by {{ gamer1 }} but not by {{ gamer2 }} ({{gamer1notgamer2count}} Games)</h1>
+    {% for game in gamer1notgamer2 %}
     <div>
-    <img src="{{ game.BoxArt }}" alt="{{ game.Title }}"> - {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }}
+    <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" alt="{{ game.Title }}">{{ game.Title }}</a> - {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }}
     </div>
     {% endfor %}
+    <h1>Games Played by {{ gamer2 }} but not by {{ gamer1 }} ({{gamer2notgamer1count}} Games)</h1>
+    {% for game in gamer2notgamer1 %}
+    <div>
+    <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" alt="{{ game.Title }}">{{ game.Title }}</a> - {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }}
+    </div>
+    {% endfor %}
+    <h1>Games Played by Both {{ gamer1 }} And {{ gamer2 }} ({{bothcount}} Games)</h1>
+    {% for game in gamesboth %}
+    <div>
+        <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" alt="{{ game.Title }}">{{ game.Title }}</a> 
+    </div>
+    {% endfor %}
+
     </body>
 </html>
