@@ -24,8 +24,7 @@ class CompareGamers(webapp.RequestHandler):
     def get(self, *args):
         gamer = args[0].encode('ascii', 'ignore') if len(args) > 0 else "pedle zelnip"
         template = JINJA_ENV.get_template('generateurl.html')
-        gamer1 = get_gamer_info(gamer)
-        values = gamer1['Data']
+        values = get_gamer_info(gamer)
         self.response.out.write(template.render(values))
 
     def post(self):
@@ -47,14 +46,14 @@ def get_gamer_info(gamer):
     elif "beard" in gamer:
         data = pickle.load(open('beard.pkl', 'r'))
     else:
-        gamer = gamer.replace(' ', "%20")
-        url = "http://www.xboxleaders.com/api/games.json?gamertag=%s&region=en-US" % gamer
+        params = urlencode({'gamertag' : gamer, 'region' : 'en-US'})
+        url = "http://www.xboxleaders.com/api/games.json?%s" % params
         req = urllib2.Request(url)
         response = urllib2.urlopen(req, timeout=60)
         data = response.read()
 
     data = json.loads(data)
-    return data
+    return data['Data']
 
 
 

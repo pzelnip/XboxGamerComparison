@@ -13,7 +13,7 @@
         <br>
         <input type="submit" value="Submit">
     </form>
-    <h1>Games Played</h1>
+    <h1>Games Played by {{ Gamertag }}</h1>
     {% for game in PlayedGames %}
     <div>
     <img src="{{ game.BoxArt }}" alt="{{ game.Title }}"> - {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }}
