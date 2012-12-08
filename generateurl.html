@@ -5,7 +5,19 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <title>Xbox Comp</title>
     </head>
-
     <body>
+    <form action="/" method="POST">
+        <label for="targeturl">Gamer:</label>
+        <br>
+        <input type="text" id="gamertag" name="gamertag" style="width: 500px">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <h1>Games Played</h1>
+    {% for game in PlayedGames %}
+    <div>
+    <img src="{{ game.BoxArt }}" alt="{{ game.Title }}"> - {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }}
+    </div>
+    {% endfor %}
     </body>
 </html>

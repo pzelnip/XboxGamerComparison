@@ -1,7 +1,10 @@
 from urllib import unquote
 from urlparse import urlparse
+import urllib2
 import logging
+import json
 import os
+import pickle
 
 from google.appengine.api import users
 from google.appengine.ext import webapp
@@ -14,18 +17,43 @@ LOGGER = logging.getLogger(__name__)
 JINJA_ENV = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 
+
 # ------------------ REQUEST HANDLERS --------------------
 
 class CompareGamers(webapp.RequestHandler):
     def get(self, *args):
-        pass
+        gamer = args[0] if len(args) > 0 else "pedle%20zelnip"
+        template = JINJA_ENV.get_template('generateurl.html')
+        gamer1 = get_gamer_info(gamer)
+        values = gamer1['Data']
+        self.response.out.write(template.render(values))
 
     def post(self):
-        pass
-
+        gamer = self.request.get('gamertag')
+        if gamer:
+            self.get(gamer)
+        else:
+            self.error(500)
 
 
 # ------------------ FUNCTIONS ------------------ 
+
+def get_gamer_info(gamer):
+    '''
+    Returns data for the given gamertag
+    '''
+    if "pedle" in gamer:
+        data = pickle.load(open('pzelnip.pkl', 'r'))
+    elif "beard" in gamer:
+        data = pickle.load(open('beard.pkl', 'r'))
+    else:
+        url = "http://www.xboxleaders.com/api/games.json?gamertag=%s&region=en-US" % gamer
+        req = urllib2.Request(url)
+        response = urllib2.urlopen(req, timeout=60)
+        data = response.read()
+
+    data = json.loads(data)
+    return data
 
 
 
