@@ -26,13 +26,13 @@
     <h1>Games Played by {{ gamer2 }} ({{gamer2score}} GS) but not by {{ gamer1 }} ({{gamer1score}} GS) - ({{gamer2notgamer1count}} Games)</h1>
     {% for game in gamer2notgamer1 %}
     <div>
-    <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" alt="{{ game.Title }}">{{ game.Title }}</a> - {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }}
+    <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}">{{ game.Title }}</a> - {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }}
     </div>
     {% endfor %}
     <h1>Games Played by Both {{ gamer1 }} And {{ gamer2 }} ({{bothcount}} Games)</h1>
     {% for game in gamesboth %}
     <div>
-        <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" alt="{{ game.Title }}">{{ game.Title }}</a> 
+        <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}">{{ game.Title }}</a> 
     </div>
     {% endfor %}
 
