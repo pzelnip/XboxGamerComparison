@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from urllib import unquote, urlencode
 from urlparse import urlparse
 import urllib2
@@ -16,6 +17,16 @@ LOGGER = logging.getLogger(__name__)
 
 JINJA_ENV = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
+# ------------------ MODELS ------------------ 
+
+class GamerModel(db.Model):
+    '''
+    The datastore model to contain info about a single gamertag. 
+    '''
+    gamertag = db.StringProperty(required=True, indexed=True)
+    json_data = db.TextProperty()
+    api_url = db.StringProperty()
+    lastretrieved = db.DateTimeProperty(auto_now=True)
 
 
 # ------------------ REQUEST HANDLERS --------------------
@@ -43,13 +54,33 @@ def get_gamer_info(gamer):
     '''
     Returns data for the given gamertag
     '''
-#    if gamer.lower() == "pedle zelnip":
-#        data = pickle.load(open('pzelnip2.pkl', 'r'))
-#    elif gamer.lower() == "ii the beard ii":
-#        data = pickle.load(open('beard2.pkl', 'r'))
-#    else:
-    data = read_from_public_api(gamer)
+    query = GamerModel.all()
+    query.filter("gamertag = ", gamer.lower())
+    result = query.get()
 
+    if result:
+        LOGGER.warn("Cached entry loaded")
+        entrytime = result.lastretrieved
+        LOGGER.warn("%s %s" % (type(entrytime), entrytime))
+        if datetime.utcnow() - entrytime > timedelta(hours=12):
+            (jsonstr, url) = read_from_public_api(gamer)
+            result.json_data = jsonstr
+            result.api_url = url
+            result.lastretrieved = datetime.utcnow()
+            result.put()
+            
+        data = json.loads(result.json_data)['Data']
+    else:
+        (jsonstr, url) = read_from_public_api(gamer)
+        gamermodel = GamerModel(
+            gamertag = gamer.lower(),
+            json_data = jsonstr,
+            api_url = url,
+        )
+        gamermodel.put()
+
+        data = json.loads(jsonstr)['Data']
+        
     return data
 
 def read_from_public_api(gamer):
@@ -57,9 +88,9 @@ def read_from_public_api(gamer):
     url = "http://www.xboxleaders.com/api/games.json?%s" % params
     req = urllib2.Request(url)
     response = urllib2.urlopen(req, timeout=60)
-    data = response.read()
-    data = json.loads(data)
-    return data['Data']
+    jsonstr = response.read()
+
+    return (jsonstr, url) 
 
 
 def process_gamers(gamer1, gamer2):
@@ -72,7 +103,9 @@ def process_gamers(gamer1, gamer2):
     g2_only = g2_games - g1_games
     both = g1_games & g2_games
 
-    result = {"gamer1" : gamer1data['Gamertag'], "gamer2" : gamer2data['Gamertag']}
+    result = {"gamer1" : gamer1data['Gamertag'], "gamer2" : gamer2data['Gamertag'],
+            "gamer1score" : gamer1data['TotalEarnedGamerScore'],
+            "gamer2score" : gamer2data['TotalEarnedGamerScore']}
 
     result['gamer1notgamer2'] = [game for game in gamer1data['PlayedGames'] 
             if game['Id'] in g1_only]
