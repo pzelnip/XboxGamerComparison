@@ -6,6 +6,7 @@
     <title>Xbox Comp</title>
     </head>
     <body>
+        <a href="https://github.com/pzelnip/XboxGamerComparison"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
     <form action="/" method="POST">
         <label for="gamertag1">Gamer 1:</label>
         <br>
@@ -17,6 +18,7 @@
         <br>
         <input type="submit" value="Submit">
     </form>
+
     <h1>Games Played by {{ gamer1 }} ({{gamer1score}} GS) but not by {{ gamer2 }} ({{gamer2score}} GS) - ({{gamer1notgamer2count}} Games)</h1>
     {% for game in gamer1notgamer2 %}
     <div>
