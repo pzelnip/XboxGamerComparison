@@ -4,8 +4,52 @@
     <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <title>Xbox Comp</title>
+
+<style type="text/css">
+
+.tooltip {
+	display:none;
+	position:absolute;
+	border:1px solid #333;
+	background-color:#161616;
+	border-radius:5px;
+	padding:10px;
+	color:#fff;
+	font-size:12px Arial;
+}
+</style>
+<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>-->
+<script type="text/javascript" src="scripts/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+        // Tooltip only Text
+        $('.masterTooltip').hover(function(){
+                // Hover over code
+                var title = $(this).attr('title');
+                $(this).data('tipText', title).removeAttr('title');
+                $('<p class="tooltip"></p>')
+                .text(title)
+                .appendTo('body')
+                .fadeIn('slow');
+        }, function() {
+                // Hover out code
+                $(this).attr('title', $(this).data('tipText'));
+                $('.tooltip').remove();
+        }).mousemove(function(e) {
+                var mousex = e.pageX + 20; //Get X coordinates
+                var mousey = e.pageY + 10; //Get Y coordinates
+                $('.tooltip')
+                .css({ top: mousey, left: mousex })
+        });
+});
+</script>
+
+
     </head>
     <body style="background-image:url(images/hero_bg.jpg); background-color:#FFFFFF;background-repeat:no-repeat;">
+
+    <a href="http://www.google.com" class="masterTooltip" title="Tooltip on image">dsalfkjdsalfkaj</a>
+
         <a href="https://github.com/pzelnip/XboxGamerComparison"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
     <form action="/" method="POST">
         <label for="gamertag1">Gamer 1:</label>
@@ -22,7 +66,8 @@
     <h1>Games Played by {{ gamer1 }} ({{gamer1score}} GS) but not by {{ gamer2 }} ({{gamer2score}} GS) - ({{gamer1notgamer2count}} Games)</h1>
     {% for game in gamer1notgamer2 %}
     <div>
-    <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}">{{ game.Title }}</a> - {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }}
+    <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" class="masterTooltip" 
+        title="{{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} achievements"></a> 
     </div>
     {% endfor %}
     <h1>Games Played by {{ gamer2 }} ({{gamer2score}} GS) but not by {{ gamer1 }} ({{gamer1score}} GS) - ({{gamer2notgamer1count}} Games)</h1>

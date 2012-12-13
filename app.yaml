@@ -8,6 +8,12 @@ handlers:
 - url: /images
   static_dir: static/imgs 
 
+- url: /scripts
+  static_dir: static/js
+
+- url: /css
+  static_dir: static/css
+
 - url: /.*
   script: handler.py
 
