@@ -104,6 +104,8 @@ def process_gamers(gamer1, gamer2):
     both = g1_games & g2_games
 
     result = {"gamer1" : gamer1data['Gamertag'], "gamer2" : gamer2data['Gamertag'],
+            "gamer1urlencode" : gamer1data['Gamertag'].replace(" ", "%20"),
+            "gamer2urlencode" : gamer2data['Gamertag'].replace(" ", "%20"),
             "gamer1score" : gamer1data['TotalEarnedGamerScore'],
             "gamer2score" : gamer2data['TotalEarnedGamerScore']}
 
