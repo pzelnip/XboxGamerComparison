@@ -99,7 +99,7 @@ $(document).ready(function() {
 
         <div class="apple_overlay" id="g{{game.Id}}">
             <h2 style="margin:10px">{{game.Title}}</h2>
-            <img src="{{ game.BoxArt }}" style="float: left; margin:10px 20px 0 0;" />
+            <img src="{{ game.LargeBoxArt }}" style="float: left; margin:10px 20px 0 0;" />
             <p>
                 <a href="{{game.Url }}">Marketplace Link</a>
             </p>
@@ -118,14 +118,14 @@ $(document).ready(function() {
     <h1>Games Played by {{ gamer2 }} but not by {{ gamer1 }} - ({{gamer2notgamer1count}} Games)</h1>
     {% for game in gamer2notgamer1 %}
         <span id="apple">
-        <img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" 
+        <img src="{{ game.LargeBoxArt }}" width="85" height="120" alt="{{ game.Title }}" 
         class="masterTooltip" title="{{ game.Title }} {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} achievements" 
         rel="#g{{game.Id}}">
         </span>
 
         <div class="apple_overlay" id="g{{game.Id}}">
             <h2 style="margin:10px">{{game.Title}}</h2>
-            <img src="{{ game.BoxArt }}" style="float: left; margin:10px 20px 0 0;" />
+            <img src="{{ game.LargeBoxArt }}" style="float: left; margin:10px 20px 0 0;" />
             <p>
                 <a href="{{game.Url }}">Marketplace Link</a>
             </p>
