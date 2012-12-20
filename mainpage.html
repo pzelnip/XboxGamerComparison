@@ -44,8 +44,24 @@ $(document).ready(function() {
 });
 </script>
 
+    <!-- include the Tools -->
+  <script src="scripts/jquery.tools.min.js"></script>
+  
+  <link rel="stylesheet" type="text/css"
+      href="css/overlay-apple.css"/>
+
+
+
+
     </head>
     <body style="background-image:url(images/hero_bg.jpg); background-color:#FFFFFF;background-repeat:no-repeat;">
+
+<!-- each overlay is initialized with this single JavaScript call -->
+<script>
+  $(function() {
+    $("#apple img[rel]").overlay({mask: '#000', effect: 'apple'});
+  });
+</script>
 
     <a href="https://github.com/pzelnip/XboxGamerComparison"><img style="position: absolute; top: 0; right: 0; border: 0;" 
         src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
@@ -73,32 +89,76 @@ $(document).ready(function() {
     </div>
     
     <div class="center">
-    <h1>Games Played by {{ gamer1 }} ({{gamer1score}} GS) but not by {{ gamer2 }} ({{gamer2score}} GS) - ({{gamer1notgamer2count}} Games)</h1>
-    <div>
+    <h1>Games Played by {{ gamer1 }} but not by {{ gamer2 }} - ({{gamer1notgamer2count}} Games)</h1>
     {% for game in gamer1notgamer2 %}
-    <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" class="masterTooltip" 
-        title="{{ game.Title }} {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} achievements"></a> 
+        <span id="apple">
+        <img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" 
+        class="masterTooltip" title="{{ game.Title }} {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} achievements" 
+        rel="#g{{game.Id}}">
+        </span>
+
+        <div class="apple_overlay" id="g{{game.Id}}">
+            <h2 style="margin:10px">{{game.Title}}</h2>
+            <img src="{{ game.BoxArt }}" style="float: left; margin:10px 20px 0 0;" />
+            <p>
+                <a href="{{game.Url }}">Marketplace Link</a>
+            </p>
+            <p>
+                <img src="images/gsicon.png"> {{game.EarnedGamerScore }} / {{game.PossibleGamerScore}} 
+            </p>
+            <p>
+                <img src="images/achicon.png"> {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} 
+            </p>
+        </div>
+
     {% endfor %}
-    </div>
     </div>
 
     <div class="center">
-    <h1>Games Played by {{ gamer2 }} ({{gamer2score}} GS) but not by {{ gamer1 }} ({{gamer1score}} GS) - ({{gamer2notgamer1count}} Games)</h1>
-    <div>
+    <h1>Games Played by {{ gamer2 }} but not by {{ gamer1 }} - ({{gamer2notgamer1count}} Games)</h1>
     {% for game in gamer2notgamer1 %}
-    <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" class="masterTooltip" 
-        title="{{ game.Title }} {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} achievements"></a> 
+        <span id="apple">
+        <img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" 
+        class="masterTooltip" title="{{ game.Title }} {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} achievements" 
+        rel="#g{{game.Id}}">
+        </span>
+
+        <div class="apple_overlay" id="g{{game.Id}}">
+            <h2 style="margin:10px">{{game.Title}}</h2>
+            <img src="{{ game.BoxArt }}" style="float: left; margin:10px 20px 0 0;" />
+            <p>
+                <a href="{{game.Url }}">Marketplace Link</a>
+            </p>
+            <p>
+                <img src="images/gsicon.png"> {{game.EarnedGamerScore }} / {{game.PossibleGamerScore}} 
+            </p>
+            <p>
+                <img src="images/achicon.png"> {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} 
+            </p>
+        </div>
+
+
     {% endfor %}
-    </div>
     </div>
 
     <div class="center">
     <h1>Games Played by Both {{ gamer1 }} And {{ gamer2 }} ({{bothcount}} Games)</h1>
-    <div>
     {% for game in gamesboth %}
-        <a href="{{ game.Url }}"><img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" class="masterTooltip" title="{{ game.Title}}"></a> 
+        <span id="apple">
+            <img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" class="masterTooltip" title="{{ game.Title}}"
+                rel="#g{{game.Id}}">
+        </span>
+
+        <div class="apple_overlay" id="g{{game.Id}}">
+            <h2 style="margin:10px">{{game.Title}}</h2>
+            <img src="{{ game.BoxArt }}" style="float: left; margin:10px 20px 0 0;" />
+            <p>
+                <a href="{{game.Url }}">Marketplace Link</a>
+            </p>
+        </div>
+
+
     {% endfor %}
-    </div>
     </div>
 
     <hr>
