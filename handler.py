@@ -33,22 +33,30 @@ class GamerModel(db.Model):
 
 class CompareGamers(webapp.RequestHandler):
     def get(self, *args):
-        (gamer1, gamer2) = args[0] if len(args) > 0 else ("pedle zelnip", 'ii the beard ii')
         template = JINJA_ENV.get_template('mainpage.html')
-        try:
-            values = process_gamers(gamer1, gamer2)
-        except ValueError as e:
-            values = {"errmsg" : str(e)}
+        if len(args) == 0:
+            values = {"empty" : "No gamers specified"}
+
+        else: 
+            (gamer1, gamer2) = args[0]
+
+            if not gamer1 or not gamer2:
+                values = {"errmsg" : "Only specified one gamer"}
+            elif gamer1.lower() == gamer2.lower():
+                values = {"errmsg" : "Both gamertags are the same"}
+            else:
+                try:
+                    values = process_gamers(gamer1, gamer2)
+                except ValueError as e:
+                    values = {"errmsg" : str(e)}
+
         self.response.out.write(template.render(values))
 
 
     def post(self):
         gamer1 = self.request.get('gamertag1')
         gamer2 = self.request.get('gamertag2')
-        if gamer1 and gamer2:
-            self.get((gamer1, gamer2))
-        else:
-            self.error(500)
+        self.get((gamer1, gamer2))
 
 
 # ------------------ FUNCTIONS ------------------ 

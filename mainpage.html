@@ -78,93 +78,97 @@ $(document).ready(function() {
         <input type="submit" value="Submit">
     </form>
 
-
     <div class="center">
-
-    {% if errmsg %} 
-        <div class="errormessage"><h3>{{ errmsg }}</h3></div>
+    {% if empty %}
+        <p>Please specify two gamers to compare in the form above</p>
     {% else %}
 
-       <h1>Comparing {{ gamer1 }} with {{ gamer2}}</h1>
-        <a href="https://live.xbox.com/en-US/Profile?gamertag={{gamer1urlencode}}"><img src="http://www.xboxgamertag.com/gamercard/{{gamer1}}/fullnxe/card.png" 
-            width="300" height="135" alt="{{gamer1}}'s Gamercard" title="{{gamer1}}'s Gamercard" border=0/></a>
-        vs
-        <a href="https://live.xbox.com/en-US/Profile?gamertag={{gamer2urlencode}}"><img src="http://www.xboxgamertag.com/gamercard/{{gamer2}}/fullnxe/card.png" 
-            width="300" height="135" alt="{{gamer2}}'s Gamercard" title="{{gamer2}}'s Gamercard" border=0/></a>
+        {% if errmsg %} 
+            <div class="errormessage"><h3>{{ errmsg }}</h3></div>
+        {% else %}
+
+           <h1>Comparing {{ gamer1 }} with {{ gamer2}}</h1>
+            <a href="https://live.xbox.com/en-US/Profile?gamertag={{gamer1urlencode}}"><img src="http://www.xboxgamertag.com/gamercard/{{gamer1}}/fullnxe/card.png" 
+                width="300" height="135" alt="{{gamer1}}'s Gamercard" title="{{gamer1}}'s Gamercard" border=0/></a>
+            vs
+            <a href="https://live.xbox.com/en-US/Profile?gamertag={{gamer2urlencode}}"><img src="http://www.xboxgamertag.com/gamercard/{{gamer2}}/fullnxe/card.png" 
+                width="300" height="135" alt="{{gamer2}}'s Gamercard" title="{{gamer2}}'s Gamercard" border=0/></a>
+            
+        </div>
         
-    </div>
-    
-    <div class="center">
-    <h1>Games Played by {{ gamer1 }} but not by {{ gamer2 }} - ({{gamer1notgamer2count}} Games)</h1>
-    {% for game in gamer1notgamer2 %}
-        <span id="apple">
-        <img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" 
-        class="masterTooltip" title="{{ game.Title }} {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} achievements" 
-        rel="#g{{game.Id}}">
-        </span>
+        <div class="center">
+        <h1>Games Played by {{ gamer1 }} but not by {{ gamer2 }} - ({{gamer1notgamer2count}} Games)</h1>
+        {% for game in gamer1notgamer2 %}
+            <span id="apple">
+            <img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" 
+            class="masterTooltip" title="{{ game.Title }} {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} achievements" 
+            rel="#g{{game.Id}}">
+            </span>
 
-        <div class="apple_overlay" id="g{{game.Id}}">
-            <h2 style="margin:10px">{{game.Title}}</h2>
-            <img src="{{ game.LargeBoxArt }}" style="float: left; margin:10px 20px 0 0;" />
-            <p>
-                <a href="{{game.Url }}">Marketplace Link</a>
-            </p>
-            <p>
-                <img src="images/gsicon.png"> {{game.EarnedGamerScore }} / {{game.PossibleGamerScore}} 
-            </p>
-            <p>
-                <img src="images/achicon.png"> {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} 
-            </p>
+            <div class="apple_overlay" id="g{{game.Id}}">
+                <h2 style="margin:10px">{{game.Title}}</h2>
+                <img src="{{ game.LargeBoxArt }}" style="float: left; margin:10px 20px 0 0;" />
+                <p>
+                    <a href="{{game.Url }}">Marketplace Link</a>
+                </p>
+                <p>
+                    <img src="images/gsicon.png"> {{game.EarnedGamerScore }} / {{game.PossibleGamerScore}} 
+                </p>
+                <p>
+                    <img src="images/achicon.png"> {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} 
+                </p>
+            </div>
+
+        {% endfor %}
         </div>
 
-    {% endfor %}
-    </div>
+        <div class="center">
+        <h1>Games Played by {{ gamer2 }} but not by {{ gamer1 }} - ({{gamer2notgamer1count}} Games)</h1>
+        {% for game in gamer2notgamer1 %}
+            <span id="apple">
+            <img src="{{ game.LargeBoxArt }}" width="85" height="120" alt="{{ game.Title }}" 
+            class="masterTooltip" title="{{ game.Title }} {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} achievements" 
+            rel="#g{{game.Id}}">
+            </span>
 
-    <div class="center">
-    <h1>Games Played by {{ gamer2 }} but not by {{ gamer1 }} - ({{gamer2notgamer1count}} Games)</h1>
-    {% for game in gamer2notgamer1 %}
-        <span id="apple">
-        <img src="{{ game.LargeBoxArt }}" width="85" height="120" alt="{{ game.Title }}" 
-        class="masterTooltip" title="{{ game.Title }} {{ game.EarnedGamerScore }} GS / {{ game.PossibleGamerScore }} GS - {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} achievements" 
-        rel="#g{{game.Id}}">
-        </span>
+            <div class="apple_overlay" id="g{{game.Id}}">
+                <h2 style="margin:10px">{{game.Title}}</h2>
+                <img src="{{ game.LargeBoxArt }}" style="float: left; margin:10px 20px 0 0;" />
+                <p>
+                    <a href="{{game.Url }}">Marketplace Link</a>
+                </p>
+                <p>
+                    <img src="images/gsicon.png"> {{game.EarnedGamerScore }} / {{game.PossibleGamerScore}} 
+                </p>
+                <p>
+                    <img src="images/achicon.png"> {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} 
+                </p>
+            </div>
 
-        <div class="apple_overlay" id="g{{game.Id}}">
-            <h2 style="margin:10px">{{game.Title}}</h2>
-            <img src="{{ game.LargeBoxArt }}" style="float: left; margin:10px 20px 0 0;" />
-            <p>
-                <a href="{{game.Url }}">Marketplace Link</a>
-            </p>
-            <p>
-                <img src="images/gsicon.png"> {{game.EarnedGamerScore }} / {{game.PossibleGamerScore}} 
-            </p>
-            <p>
-                <img src="images/achicon.png"> {{ game.EarnedAchievements }} / {{ game.PossibleAchievements }} 
-            </p>
+
+        {% endfor %}
         </div>
 
+        <div class="center">
+        <h1>Games Played by Both {{ gamer1 }} And {{ gamer2 }} ({{bothcount}} Games)</h1>
+        {% for game in gamesboth %}
+            <span id="apple">
+                <img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" class="masterTooltip" title="{{ game.Title}}"
+                    rel="#g{{game.Id}}">
+            </span>
 
-    {% endfor %}
-    </div>
-
-    <div class="center">
-    <h1>Games Played by Both {{ gamer1 }} And {{ gamer2 }} ({{bothcount}} Games)</h1>
-    {% for game in gamesboth %}
-        <span id="apple">
-            <img src="{{ game.BoxArt }}" width="85" height="120" alt="{{ game.Title }}" class="masterTooltip" title="{{ game.Title}}"
-                rel="#g{{game.Id}}">
-        </span>
-
-        <div class="apple_overlay" id="g{{game.Id}}">
-            <h2 style="margin:10px">{{game.Title}}</h2>
-            <img src="{{ game.BoxArt }}" style="float: left; margin:10px 20px 0 0;" />
-            <p>
-                <a href="{{game.Url }}">Marketplace Link</a>
-            </p>
-        </div>
+            <div class="apple_overlay" id="g{{game.Id}}">
+                <h2 style="margin:10px">{{game.Title}}</h2>
+                <img src="{{ game.BoxArt }}" style="float: left; margin:10px 20px 0 0;" />
+                <p>
+                    <a href="{{game.Url }}">Marketplace Link</a>
+                </p>
+            </div>
 
 
-    {% endfor %}
+        {% endfor %}
+
+        {% endif %}
 
     {% endif %}
     </div>
