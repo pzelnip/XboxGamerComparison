@@ -35,7 +35,10 @@ class CompareGamers(webapp.RequestHandler):
     def get(self, *args):
         (gamer1, gamer2) = args[0] if len(args) > 0 else ("pedle zelnip", 'ii the beard ii')
         template = JINJA_ENV.get_template('mainpage.html')
-        values = process_gamers(gamer1, gamer2)
+        try:
+            values = process_gamers(gamer1, gamer2)
+        except ValueError as e:
+            values = {"errmsg" : str(e)}
         self.response.out.write(template.render(values))
 
 
@@ -69,7 +72,7 @@ def get_gamer_info(gamer):
             result.lastretrieved = datetime.utcnow()
             result.put()
             
-        data = json.loads(result.json_data)['Data']
+        data = json.loads(result.json_data)
     else:
         (jsonstr, url) = read_from_public_api(gamer)
         gamermodel = GamerModel(
@@ -79,9 +82,12 @@ def get_gamer_info(gamer):
         )
         gamermodel.put()
 
-        data = json.loads(jsonstr)['Data']
+        data = json.loads(jsonstr)
         
-    return data
+    if data.get("error", None):
+        raise ValueError("Could not retrieve data for %s" % gamer)
+
+    return data['Data']
 
 def read_from_public_api(gamer):
     params = urlencode({'gamertag' : gamer, 'region' : 'en-US'})

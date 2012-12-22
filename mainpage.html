@@ -78,8 +78,14 @@ $(document).ready(function() {
         <input type="submit" value="Submit">
     </form>
 
+
     <div class="center">
-        <h1>Comparing {{ gamer1 }} with {{ gamer2}}</h1>
+
+    {% if errmsg %} 
+        <div class="errormessage"><h3>{{ errmsg }}</h3></div>
+    {% else %}
+
+       <h1>Comparing {{ gamer1 }} with {{ gamer2}}</h1>
         <a href="https://live.xbox.com/en-US/Profile?gamertag={{gamer1urlencode}}"><img src="http://www.xboxgamertag.com/gamercard/{{gamer1}}/fullnxe/card.png" 
             width="300" height="135" alt="{{gamer1}}'s Gamercard" title="{{gamer1}}'s Gamercard" border=0/></a>
         vs
@@ -159,8 +165,9 @@ $(document).ready(function() {
 
 
     {% endfor %}
-    </div>
 
+    {% endif %}
+    </div>
     <hr>
 
     <div>Built using <a href="http://www.xboxleaders.com/docs/api/">XboxLeaders API</a>, <a href="http://www.xboxgamertag.com/gamercard/">Xbox Gamertag</a>, and  
